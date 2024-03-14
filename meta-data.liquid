@@ -1,0 +1,38 @@
+// add this code where you want to show dynamic variants metafield data
+{% if product.variants.size > 1 %}
+<div class="variant_meta">
+{% for variant in product.variants %}
+  {% if product.selected_or_first_available_variant.id == variant.id %}
+    <div class="variant_meta_data" data-varid="{{ variant.id }}">
+      {% if variant.metafields.custom.dimensions != blank %}
+      <p class="dimensions">{{ variant.metafields.custom.dimensions }}</p>
+      {% endif %}
+      <div class="dimensions">
+        {% for image in variant.metafields.custom.dimensions_image.value %}
+          {% if image != blank %}
+           <div class="dimensions_img">
+            <img class="lazyload" src=" {{ image | image_url: width: '1640x' }}" data-widths="[475, 880, 1200, 1620]" data-aspectratio="{{ image.aspect_ratio }}" data-sizes="auto" width="100%" height="auto" loading="lazy"/>
+           </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+   <div class="variant_meta_data" data-varid="{{ variant.id }}" style="display: none;">
+      {% if variant.metafields.custom.dimensions != blank %}
+      <p class="dimensions">{{ variant.metafields.custom.dimensions }}</p>
+      {% endif %}
+      <div class="dimensions">
+        {% for image in variant.metafields.custom.dimensions_image.value %}
+        {% if image != blank %}
+         <div class="dimensions_img">
+          <img class="lazyload" src=" {{ image | image_url: width: '1640x' }}" data-widths="[475, 880, 1200, 1620]" data-aspectratio="{{ image.aspect_ratio }}" data-sizes="auto" width="100%" height="auto" loading="lazy"/>
+         </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+{% endfor %}
+</div>
+{% endif %}
